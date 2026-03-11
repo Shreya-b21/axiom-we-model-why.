@@ -3,8 +3,8 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import uuid
 
-from database import init_db, save_run, get_runs, get_trace
-from agent import Agent
+from backend.database import init_db, save_run, get_runs, get_trace
+from backend.agent import Agent
 
 
 app = FastAPI()
