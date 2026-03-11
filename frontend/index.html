@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Axiom — We Model Why</title>
+
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
+<style>
+
+body {
+    font-family: Arial;
+    margin: 40px;
+}
+
+#network {
+    width: 100%;
+    height: 500px;
+    border: 1px solid #ddd;
+}
+
+input {
+    padding: 8px;
+}
+
+button {
+    padding: 8px 14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Axiom — Reasoning Graph</h2>
+
+<input id="prompt" type="text" placeholder="Ask something..." size="40">
+<button onclick="runAgent()">Run</button>
+
+<h3>Answer</h3>
+<pre id="answer"></pre>
+
+<h3>Reasoning Graph</h3>
+<div id="network"></div>
+
+<script>
+
+async function runAgent() {
+
+    const prompt = document.getElementById("prompt").value;
+
+    const response = await fetch("http://127.0.0.1:8000/run", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            prompt: prompt
+        })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("answer").textContent = data.answer;
+
+    drawGraph(data.reasoning);
+}
+
+
+function drawGraph(trace) {
+
+    const nodes = [];
+    const edges = [];
+
+    trace.forEach(step => {
+
+        nodes.push({
+            id: step.id,
+            label: step.type + "\n\n" + step.content,
+            shape: "box"
+        });
+
+        if (step.parent) {
+            edges.push({
+                from: step.parent,
+                to: step.id
+            });
+        }
+
+    });
+
+    const container = document.getElementById("network");
+
+    const data = {
+        nodes: new vis.DataSet(nodes),
+        edges: new vis.DataSet(edges)
+    };
+
+    const options = {
+        layout: {
+            hierarchical: {
+                direction: "LR"
+            }
+        },
+        physics: false
+    };
+
+    new vis.Network(container, data, options);
+}
+
+</script>
+
+</body>
+
+</html>

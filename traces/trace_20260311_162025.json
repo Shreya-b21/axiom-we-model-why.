@@ -1,0 +1,32 @@
+[
+  {
+    "id": "483611da-d41f-4f35-b2ff-572e14dc553e",
+    "type": "prompt",
+    "content": "What is the capital of France?",
+    "parent": null
+  },
+  {
+    "id": "3d7ec22f-f016-40d8-86fe-64f66bef3e10",
+    "type": "thought",
+    "content": "I might need to search for this information",
+    "parent": "483611da-d41f-4f35-b2ff-572e14dc553e"
+  },
+  {
+    "id": "add6b7d7-b63b-4fd2-8c2d-f8e07d5c6e53",
+    "type": "tool_call",
+    "content": "search_tool",
+    "parent": "3d7ec22f-f016-40d8-86fe-64f66bef3e10"
+  },
+  {
+    "id": "ac93e519-ed15-479d-926f-2c096001fff7",
+    "type": "tool_result",
+    "content": "Paris is the capital of France.",
+    "parent": "add6b7d7-b63b-4fd2-8c2d-f8e07d5c6e53"
+  },
+  {
+    "id": "323fe33c-e802-4d52-90c3-95748171dc1b",
+    "type": "answer",
+    "content": "Paris is the capital of France.",
+    "parent": "ac93e519-ed15-479d-926f-2c096001fff7"
+  }
+]
